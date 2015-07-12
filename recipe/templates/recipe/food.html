@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <title>{{food.name}}</title>
+</head>
+
+{%load staticfiles%}
+<link rel="stylesheet" type="text/css" href="{% static 'recipe/style2.css' %}" />
+    
+<body>
+<div id = "navigation">
+    <a href="{%url 'food_list' '' %}">
+    <img src="/media/images/mac.png" alt="McDonald Logo" width="60" height="60">
+    </a>
+</div>
+
+<div id = "content">
+    <h3>Name: {{food.name}}</h3>
+    
+    <hr>
+    Information: {{food.information}}
+    <br/>
+    <br>
+    Rating: <a href={%url 'food_list' food.rating%}>{{food.rating}}</a>
+    <p>Click on the rating to view more food with the same rating.</p>
+    <br>
+    All restaurant(s) which serve it:
+    <ul>
+        {% for resto in food.restaurant.all%}
+            <a href="{%url 'restaurant_list' resto.name%}">
+            <li>{{resto.content}}</li>
+            </a>
+        {%endfor%}
+    </ul>
+    <p>Click on the restaurants to view more food sold there.</p>
+    <a href={%url 'show_image' food.id %}>
+    <img src = "/media/images/{{food.id}}.png" alt = {{food.name}} width = "180" height = "180">
+    </a>
+    <p>Click on the image to view it in larger proportion.</p>
+</div>
+</body>
+    
+    
+    
+</html>

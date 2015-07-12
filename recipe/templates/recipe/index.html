@@ -1,0 +1,84 @@
+<head>
+    <title>McDonald's Food Category</title>
+</head>
+
+<div id = "navigation">
+    <a href="{%url 'food_list' '' %}">
+    <img src="/media/images/mac.png" alt="McDonald Logo" width="60" height="60">
+    </a>
+    <h3>{{text}}</h3>
+    <h2>Total number of delicious food: {{total}}</h2>
+    <ul>
+    {% if recipe %}
+        {%for food in recipe%}
+            <li>
+                <a href="{%url 'food_detail' food.id%}">{{food.name}}</a>
+            </li>
+        {%endfor%}
+    {%else%}
+        <p>No food is available, please try again tomorrow :P</p>
+    {% endif%}
+    
+    </ul>
+
+    <h2>Restaurants</h2>
+    <ul>
+    {% if resto %}
+        {%for rest in resto%}
+            <li>
+                <a href="{%url 'restaurant_list' rest.name%}">{{rest.content}}</a>
+            </li>
+        {%endfor%}
+    {%else%}
+        <p>Welcome to McDonald's</p>
+    {% endif%}
+    
+    </ul>
+</div>
+
+<!--
+<div class="postit" style="background:{{food.color}};color:{{food.fontcolor}}">
+    <u>{{food.name}}</u>
+    <br>
+    {{food.information}}
+</div>
+-->
+
+{%load staticfiles%}
+<link rel="stylesheet" type="text/css" href="{% static 'recipe/style.css' %}" />
+{% if recipe %}
+    {% for food in recipe %}
+        <a href={%url 'food_detail' food.id %}>
+            
+            <div class = "postit" style = "background:{{food.color}};color:{{food.fontcolor}}">
+                <div id = "base" style="border-color:{{food.rating.color}} transparent transparent transparent;">
+                    <div class="rotatevertical">
+                        {{food.rating.num}}
+                    </div>
+                    
+                </div>
+                <u>{{food.name}}</u>
+                <br>
+                <img src = "/media/images/{{food.id}}.png" alt = {{food.name}} width = "180" height = "180">
+            </div>
+            
+            <!--
+            <textarea class="postit" style="background:{{food.color}};color:{{food.fontcolor}}">
+                {{food.name}}
+                {{food.information}}
+            </textarea>
+            -->
+
+            <!--
+            <div class="postit" style="background:{{food.color}};color:{{food.fontcolor}}">
+                <u>{{food.name}}</u>
+                <br>
+                {{food.information}}
+            </div>
+            -->
+            
+        </a>
+    {% endfor %}
+{% else %}
+    <p>No food is available.</p>
+{% endif %}
