@@ -1,0 +1,32 @@
+{%extends 'recipe/base.html'%}
+{%load staticfiles%}
+<link rel="stylesheet" type="text/css" href="{% static 'recipe/style3.css' %}" />
+
+{%block title%}
+    Delete {{object.name}}
+{%endblock%}
+
+{%block content%}
+<!--
+<div class = "container">
+    <form action="" method="POST">{% csrf_token %}
+        <p>Are you sure you want to delete "{{ object }}"?</p>
+        <input type="submit" value="Confirm" />
+    </form>
+</div>
+-->
+<div class = "container">
+<h1>Delete Food</h1>
+
+<p>Are you sure you want to delete the food "{{ object }}" ?</p>
+<a href={%url 'show_image' object.id %}>
+<img src = "/media/images/{{object.picturename}}.png" alt = {{object.name}} width = "180" height = "180">
+</a>
+
+<form method="POST">{% csrf_token %}
+    <input type="submit" value="Submit" />
+</form>
+
+</div>
+
+{%endblock%}

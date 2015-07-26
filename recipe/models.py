@@ -1,9 +1,11 @@
 from django.db import models
+from django.core.urlresolvers import reverse
 
 # Create your models here.
 class Food(models.Model):
     name = models.CharField(max_length = 255)
     information = models.TextField()
+    picturename = models.CharField(max_length = 255, default = "")
     picture = models.ImageField(upload_to='')
     
     color = models.CharField(max_length=50, default = "yellow")
@@ -17,6 +19,9 @@ class Food(models.Model):
     
     def __unicode__(self):
         return self.name
+        
+    def get_absolute_url(self):
+        return reverse("detail", kwargs={"pk":self.pk})
         
 class Restaurant(models.Model):
     name = models.CharField(max_length = 255)

@@ -1,0 +1,76 @@
+{# Load the tag library #}
+{% load bootstrap3 %}
+
+<head>
+  <title>
+    {%block title%}
+	      McDonald Food List
+    {%endblock%}
+  </title>
+</head>
+
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery=1%}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.14.30/js/bootstrap-datetimepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.14.30/css/bootstrap-datetimepicker.min.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script type="text/javascript">
+    $(document).ready(function() {
+      $('.dateinput').datepicker({ format: "yyyy/mm/dd" });
+      $('.datetimeinput').datetimepicker();
+    });
+</script>
+</head>
+
+{%load staticfiles%}
+<link rel="stylesheet" type="text/css" href="{% static 'recipe/style3.css' %}" />
+
+<div id = "navigation">
+    <a href = "{%url 'food_list' '' %}">
+        <img src="/media/images/mac.png" alt="McDonald Logo" width="60" height="60">
+    </a>
+    <h3>{{text}}</h3>
+    {% if total != null %}
+        <h3>Total number of delicious food: {{total}}</h3>
+    {% else %}
+        <h3>Welcome to McDonald's</h3>
+    {% endif %}
+    <ul>
+    {% if object_list %}
+        {%for food in object_list%}
+            <li>
+                <a href="{%url 'food_detail' food.id%}">{{food.name}}</a>
+            </li>
+        {%endfor%}
+    {%else%}
+        <p>Welcome to McDonald's</p>
+    {% endif%}
+    
+    </ul>
+
+    <h3>Restaurants</h3>
+    <ul>
+    {% if resto %}
+        {%for rest in resto%}
+            <li>
+                <a href="{%url 'restaurant_list' rest.name%}">{{rest.content}}</a>
+            </li>
+        {%endfor%}
+    {%else%}
+        <p>Welcome to McDonald's</p>
+    {% endif%}
+    
+    </ul>
+</div>
+
+
+<body>
+{%block content%}
+	To be replaced by actual content
+{%endblock%}
+</body>

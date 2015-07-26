@@ -1,0 +1,41 @@
+{%extends 'recipe/base.html'%}
+{%block title%}
+    Food - {{object.name}}
+{%endblock%}
+{%block content%}
+    <div class="container">
+        <h4>Name</h4> 
+        <p>{{object.name}}</p>
+        <h4>Information</h4>
+        <p>{{object.information}}</p>
+        <h4>Rating</h4>
+        <p>{{object.rating}}</p>
+        <h4>Restaurant(s) which serve it:</h4>
+                <ul>
+                <!--https://docs.djangoproject.com/en/1.7/ref/templates/builtins/#for-->
+                    {%for resto in object.restaurant.all%}
+                        <li>{{resto.name}}</li>
+                    {%endfor%}
+                </ul>
+    </div>
+{%endblock%}
+
+<!--
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{food.name}}</title>
+    </head>
+    <body>
+        Name:{{food.name}} <br/>
+        Information:{{food.information}}<br/>
+        Rating:{{food.rating}}<br/>
+        Restaurants(s):
+        <ul>
+        {%for resto in food.restaurant.all%}
+            <li>{{resto.name}}</li>
+        {%endfor%}
+        </ul>
+    </body>
+</html>
+-->

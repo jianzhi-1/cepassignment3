@@ -1,0 +1,12 @@
+<h1>
+    <img src = "{{MEDIA_URL}}1.png"/>
+    <img src = "{{MEDIA_URL}}2.png"/>
+    <img src = "{{MEDIA_URL}}3.png"/>
+    <img src = "{{MEDIA_URL}}4.png"/>
+    <img src = "{{MEDIA_URL}}5.png"/>
+    <ul>
+        {%for food in food_list%}
+            <li>{{food}}</li>
+        {% endfor %}
+    </ul>
+</h1>

@@ -1,12 +1,75 @@
-<h1>
-    <img src = "{{MEDIA_URL}}1.png"/>
-    <img src = "{{MEDIA_URL}}2.png"/>
-    <img src = "{{MEDIA_URL}}3.png"/>
-    <img src = "{{MEDIA_URL}}4.png"/>
-    <img src = "{{MEDIA_URL}}5.png"/>
+{% extends 'recipe/base.html'%}
+<head>
+    <title>McDonald's Food Category</title>
+</head>
+<!--
+<div id = "navigation">
+    <a href="{%url 'food_list' '' %}">
+    <img src="/media/images/mac.png" alt="McDonald Logo" width="60" height="60">
+    </a>
+    <h3>{{text}}</h3>
+    {% if total != null %}
+        <h2>Total number of delicious food: {{total}}</h2>
+    {% else %}
+        <h2>Total number of delicious food: 7</h2>
+    {% endif %}
     <ul>
-        {%for food in food_list%}
-            <li>{{food}}</li>
-        {% endfor %}
+    {% if object_list %}
+        {%for food in object_list%}
+            <li>
+                <a href="{%url 'food_detail' food.id%}">{{food.name}}</a>
+            </li>
+        {%endfor%}
+    {%else%}
+        <p>There is no food of such rating. Sorry!</p>
+    {% endif%}
+    
     </ul>
-</h1>
+
+    <h2>Restaurants</h2>
+    <ul>
+    {% if resto %}
+        {%for rest in resto%}
+            <li>
+                <a href="{%url 'restaurant_list' rest.name%}">{{rest.content}}</a>
+            </li>
+        {%endfor%}
+    {%else%}
+        <p>Welcome to McDonald's</p>
+    {% endif%}
+    
+    </ul>
+</div>
+-->
+{%load staticfiles%}
+{%block content%}
+<link rel="stylesheet" type="text/css" href="{% static 'recipe/style.css' %}" />
+<!--
+    {% if total != null %}
+        <h2>Total number of food: {{total}}</h2>
+    {% else %}
+        <h2>Total number of food: 6</h2>
+    {% endif %}
+-->
+    
+    {% if object_list %}
+        {% for food in object_list  %}
+        <a href={%url 'food_update' food.id %}>
+            
+            <div class = "postit" style = "background:{{food.color}};color:{{food.fontcolor}}">
+                <div id = "base" style="border-color:{{food.rating.color}} transparent transparent transparent;">
+                    <div class="rotatevertical">
+                        {{food.rating.num}}
+                    </div>
+                    
+                </div>
+                <u>{{food.name}}</u>
+                <br>
+                <img src = "/media/images/{{food.picturename}}.png" alt = {{food.name}} width = "180" height = "180">
+            </div>
+        </a>
+        {% endfor %}
+    {% else %}
+        <p>No food are available.</p>
+    {% endif %}
+{%endblock%}
