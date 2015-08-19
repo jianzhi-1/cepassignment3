@@ -1,8 +1,10 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from accounts.models import UserProfile
 
 # Create your models here.
 class Food(models.Model):
+    user = models.ForeignKey(UserProfile, blank=True, null=True)
     name = models.CharField(max_length = 255)
     information = models.TextField()
     picturename = models.CharField(max_length = 255, default = "")

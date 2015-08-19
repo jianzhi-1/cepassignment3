@@ -1,4 +1,5 @@
 import re
+import json
 
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -6,19 +7,23 @@ from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models import Q
 
 from django.views.generic import View
-from django.views.generic import ListView, DetailView, DeleteView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic import ListView, DetailView, TemplateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.shortcuts import get_object_or_404, redirect
 
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
+from django.http import JsonResponse
+from django.forms.models import model_to_dict
 
 from .models import Food, Restaurant, Rating
 
-from .forms import FoodForm
+from .forms import FoodForm, RatingForm, RestaurantForm, FoodFormUpdate
+
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from accounts.models import UserProfile
+from django.core.serializers.json import DjangoJSONEncoder
 
 # Create your views here.
-
-
 def showImages(request, food_id):
 
     food = Food.objects.get(id=food_id)
@@ -88,27 +93,48 @@ def food(request, food_id):
     food = Food.objects.get(id=food_id)
     return render(request, 'recipe/food.html', {'food':food})
 
+
 class FoodList(ListView):
     model = Food
     queryset = Food.objects.all()
     
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(FoodList, self).dispatch(*args, **kwargs)
+
     def get_queryset(self):
-        rating = self.kwargs['rating']
-        if rating == '':
-            self.queryset = Food.objects.all()
-            return self.queryset
-        else:
-            self.queryset = Food.objects.filter(rating__num__iexact=rating)
-            return self.queryset
+            curruser = UserProfile.objects.get(user=self.request.user)
+            rating = self.kwargs['rating']
+            if rating == '':
+                #filter based on current logged in user
+                self.queryset = Food.objects.filter(user=curruser)
+                return self.queryset
+            else:
+                #filter based on current logged in user
+                self.queryset = Food.objects.all().filter(user=curruser).filter(rating__num__iexact=rating)
+                return self.queryset
+
             
     def get_context_data(self, **kwargs):
         context = super(FoodList, self).get_context_data(**kwargs)
         context['total'] = self.queryset.count()
+        #provided so that the avatar can be displayed in base.html
+        context['curruser'] = UserProfile.objects.get(user=self.request.user)
         return context
+
 
     
 class FoodDetail(DetailView):
     model = Food
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(FoodDetail, self).dispatch(*args, **kwargs)
+        
+    def get_context_data(self, **kwargs):
+        context = super(FoodDetail, self).get_context_data(**kwargs)
+        context['curruser'] = UserProfile.objects.get(user=self.request.user)
+        return context
+
 
 class FoodCreate(CreateView):
     model = Food
@@ -117,13 +143,17 @@ class FoodCreate(CreateView):
 
 class FoodUpdate(UpdateView):
     model = Food
-    form_class = FoodForm
+    form_class = FoodFormUpdate
     success_url = reverse_lazy('listing')
     
-class FoodDelete(DeleteView):
-    model = Food
-    success_url = reverse_lazy('listing')
-            #url = reverse('detail', args=str(food.id))
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(FoodUpdate, self).dispatch(*args, **kwargs)
+        
+    def get_context_data(self, **kwargs):
+        context = super(FoodUpdate, self).get_context_data(**kwargs)
+        context['curruser'] = UserProfile.objects.get(user=self.request.user)
+        return context
     
 class FoodByRestaurant(ListView):
     model = Food
@@ -140,12 +170,101 @@ class FoodByRestaurant(ListView):
         for item in queries:
             query |= item
         # Query the model
-        allfood = Food.objects.filter(query).distinct().order_by('resturant__name')
+        curruser = UserProfile.objects.filter(user=self.request.user) 
+        allfood = Food.objects.filter(user=curruser).filter(query).distinct().order_by('restaurant__title')
         self.queryset = allfood #Setting the queryset to allow get_context_data to apply count
         return allfood
     
     def get_context_data(self, **kwargs):
         context = super(FoodByRestaurant, self).get_context_data(**kwargs)
         context['total'] = self.queryset.count()
+        context['curruser'] = UserProfile.objects.get(user=self.request.user)
         return context
+        
+class MyView(TemplateView):
+
+    rating_form_class = RatingForm
+    restaurant_form_class = RestaurantForm
+    food_form_class = FoodForm
+    template_name = "recipe/food_hybrid.html"
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(MyView, self).dispatch(*args, **kwargs)
+    
+    
+    def get(self, request, *args, **kwargs):
+
+        kwargs.setdefault("createrating_form", self.rating_form_class())
+        kwargs.setdefault("createrestaurant_form", self.restaurant_form_class())
+        kwargs.setdefault("createfood_form", self.food_form_class())
+        
+        kwargs.setdefault('curruser', UserProfile.objects.get(user=self.request.user))
+        return super(MyView, self).get(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        form_args = {
+            'data': self.request.POST,
+        }
+        
+
+        if "btn_createrating" in request.POST['form']: 
+            form = self.rating_form_class(**form_args)
+
+            if not form.is_valid():
+
+                return self.get(request, createrating_form=form)
+            else:
+                form.save()
+                data = Rating.objects.all()
+                result_list = list(data.values('id','num'))
+                return HttpResponse(json.dumps(result_list, cls=DjangoJSONEncoder))
+
+        elif "btn_createrestaurant" in request.POST['form']: 
+            form = self.restaurant_form_class(**form_args)
+            if not form.is_valid():
+                return self.get(request, createrestaurant_form=form)
+            else:
+                form.save() 
+                data = Restaurant.objects.all() 
+                result_list = list(data.values('id','name'))
+                return HttpResponse(json.dumps(result_list, cls=DjangoJSONEncoder)) #return to ajax as success with all the new records.
+
+        elif "btn_createfood" in request.POST['form']:
+            form = self.food_form_class(**form_args)
+            if not form.is_valid():
+                return self.get(request,createfood_form=form) 
+            else:
+                try:
+                    #Find out which user is logged in and get the correct UserProfile record.
+                    curruser = UserProfile.objects.get(user=self.request.user)
+                    obj = form.save(commit=False)
+                    obj.user = curruser #Save the note note under that user
+                    obj.save() #save the new object
+                    
+                except Exception, e:
+                    print("errors" + str(e))
+                response = {'status': 1, 'message':'ok'}
+                return HttpResponse(json.dumps(response, cls=DjangoJSONEncoder)) #return to ajax as success with all the new records.
+            
+        return super(MyView, self).get(request)
+
+
+class FoodDelete(DeleteView):
+    model = Food
+    success_url = '/listall/'
+    #success_url = reverse_lazy('listing')
+            #url = reverse('detail', args=str(food.id))
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(FoodDelete, self).dispatch(*args, **kwargs)
+        
+    def get_context_data(self, **kwargs):
+        context = super(FoodDelete, self).get_context_data(**kwargs)
+        context['curruser'] = UserProfile.objects.get(user=self.request.user)
+        return context
+        
+class Landing(TemplateView):
+    template_name = "recipe/landing.html"
+
     

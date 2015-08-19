@@ -6,6 +6,9 @@ from django.conf import settings
 from recipe.models import Food
 from django.views.generic import ListView, DetailView
 
+from django.conf.urls import *
+from django.contrib.auth.views import login, logout
+
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'cepassignment1final.views.home', name='home'),
@@ -28,6 +31,12 @@ urlpatterns = patterns('',
     url(r'^food/(?P<pk>\d+)/edit/$', views.FoodUpdate.as_view(), name = 'food_update'),
     url(r'^food/(?P<pk>\d+)$', views.FoodDetail.as_view(), name = 'food_detail'),
     url(r'^food/(?P<pk>\d+)/delete$', views.FoodDelete.as_view(), name = 'food_delete'),
+    
+    #assignment 3
+    url(r'^accounts/', include('accounts.urls')),
+    url(r'^add/$', views.MyView.as_view(), name = "note_add"),
+
+    
 )
 
 urlpatterns += patterns(

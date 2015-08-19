@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'recipe',
     'bootstrap3',
     'crispy_forms',
+    'accounts',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -88,3 +89,8 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media", "images")
 MEDIA_URL = "/media/images/"
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+#Authentication at the end of settings.py file
+LOGIN_URL = '/accounts/login' #URL to forward to when the page needs user to login
+LOGIN_REDIRECT_URL = '/list/' #Page to forward user after user login
+

@@ -1,0 +1,16 @@
+{%extends 'recipe/base.html'%}
+{%load staticfiles%}
+
+{%block content%}
+    <h3>Rating</h3>
+    <link rel="stylesheet" type="text/css" href="{% static 'recipe/style.css' %}" />
+    {% if object_list  %}
+        <ul>
+        {% for rating in object_list  %}
+            <li>{{rating.num}}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No ratings are available.</p>
+    {% endif %}
+{%endblock%}
