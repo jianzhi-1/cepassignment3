@@ -104,6 +104,9 @@ class FoodList(ListView):
 
     def get_queryset(self):
             curruser = UserProfile.objects.get(user=self.request.user)
+            print(curruser)
+            cur = self.request.user
+            print(cur)
             rating = self.kwargs['rating']
             if rating == '':
                 #filter based on current logged in user
