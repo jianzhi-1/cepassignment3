@@ -147,33 +147,26 @@
                 data: {
                     "name": $("#" + formid + " #id_name").val(),
                     "information": $("#" + formid + " #id_information").val(),
-                    "picturename": $("#" + formid + " #id_picturename").val(),
+                    //"picturename": $("#" + formid + " #id_picturename").val(),
                     //"picture": $("#" + formid + " #id_picture").val(),
                     "color": $("#" + formid + " #id_color").val(),
                     "fontcolor": $("#" + formid + " #id_fontcolor").val(),
                     "rating": $("#" + formid + " #id_rating").val(),
                     "restaurant": $("#" + formid + " #id_restaurant").val(),
                     "form": $("#" + formid).serialize(),
-                    
-                    /*
-                     "title": $("#" + formid + " #id_title").val(),
-                     "done": $("#" + formid + " #id_done").prop("checked"),
-                     "content": $("#" + formid + " #id_content").val(),
-                     "due": $("#" + formid + " #id_due").val(),
-                     "color": $("#" + formid + " #id_color").val(),
-                     "fontcolor": $("#" + formid + " #id_fontcolor").val(),
-                     "folder": $("#" + formid + " #id_folder").val(),
-                     "tag": $("#" + formid + " #id_tag").val(),
-                     */
     
                 },
+                /*
                 success: function(data) {
                     if (data.status == 1){
-                        //alert(data.message)
-                        //http://stackoverflow.com/questions/503093/how-can-i-make-a-redirect-page-using-jquery
-                        window.location.replace("/list") //to redirect to another page
+                        window.location.replace("assignment3-3-jianzhi.c9.io/list/"); //to redirect to another page
                     }
                 },
+                */
+                
+                 success: function(data) {
+                    location.href = "https://assignment3-3-jianzhi.c9.io/listall/";
+                 },
                 crossDomain: false, // obviates need for sameOrigin test
                 beforeSend: function(xhr, settings) {
                     if (!csrfSafeMethod(settings.type)) {

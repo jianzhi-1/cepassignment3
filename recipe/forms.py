@@ -6,7 +6,7 @@ from crispy_forms.layout import Submit, Layout, Field, Hidden, Button, HTML, Div
 class FoodForm(forms.ModelForm):
     class Meta:
         model = Food
-        exclude = ('user','picture',)
+        exclude = ('user', 'picturename', 'picture',)
         
     def __init__(self, *args, **kwargs):
         super(FoodForm, self).__init__(*args, **kwargs)
@@ -14,12 +14,12 @@ class FoodForm(forms.ModelForm):
         self.helper.form_id = "foodform"
         
         rating = Div('rating', css_class="col-xs-12", style = "padding:0px;")
-        self.helper.layout.pop(5)
-        self.helper.layout.insert(5,Fieldset("Select Rating",rating, Button("createratingmodal", value="Create New Rating", css_class="btn btn-primary btn-sm col-xs-12 ", data_toggle="modal", data_target="#myModal")))
+        self.helper.layout.pop(4)
+        self.helper.layout.insert(4,Fieldset("Select Rating",rating, Button("createratingmodal", value="Create New Rating", css_class="btn btn-primary btn-sm col-xs-12 ", data_toggle="modal", data_target="#myModal")))
         
         restaurant = Div('restaurant',css_class = "col-xs-12", style="padding:0px;") 
-        self.helper.layout.pop(6)
-        self.helper.layout.insert(6, Fieldset("Select Restaurant",restaurant, Button("createrestaurantmodal", value="Create New Restaurant", css_class="btn btn-primary btn-sm col-xs-12", data_toggle="modal", data_target="#myModal2")))
+        self.helper.layout.pop(5)
+        self.helper.layout.insert(5, Fieldset("Select Restaurant",restaurant, Button("createrestaurantmodal", value="Create New Restaurant", css_class="btn btn-primary btn-sm col-xs-12", data_toggle="modal", data_target="#myModal2")))
         
         self.helper.layout.append(Button('btn_createfood', 'Create Food', css_class='createfood', style="margin-top:15px;"))
         self.helper.layout.append(Hidden(name='btn_createfood', value="btn_createfood"))

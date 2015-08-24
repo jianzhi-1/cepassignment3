@@ -23,6 +23,8 @@ from django.utils.decorators import method_decorator
 from accounts.models import UserProfile
 from django.core.serializers.json import DjangoJSONEncoder
 
+from django.http import Http404
+
 # Create your views here.
 def showImages(request, food_id):
 
@@ -103,20 +105,16 @@ class FoodList(ListView):
         return super(FoodList, self).dispatch(*args, **kwargs)
 
     def get_queryset(self):
-            curruser = UserProfile.objects.get(user=self.request.user)
-            print(curruser)
-            cur = self.request.user
-            print(cur)
-            rating = self.kwargs['rating']
-            if rating == '':
-                #filter based on current logged in user
-                self.queryset = Food.objects.filter(user=curruser)
-                return self.queryset
-            else:
-                #filter based on current logged in user
-                self.queryset = Food.objects.all().filter(user=curruser).filter(rating__num__iexact=rating)
-                return self.queryset
+        curruser = UserProfile.objects.get(user=self.request.user)
+        rating = self.kwargs['rating']
+        if rating == '':
 
+            self.queryset = Food.objects.filter(user=curruser)
+            return self.queryset
+        else:
+            #filter based on current logged in user
+            self.queryset = Food.objects.all().filter(user=curruser).filter(rating__num__iexact=rating)
+            return self.queryset
             
     def get_context_data(self, **kwargs):
         context = super(FoodList, self).get_context_data(**kwargs)
