@@ -31,7 +31,8 @@ def showImages(request, food_id):
     food = Food.objects.get(id=food_id)
     food_picturename = food.picturename
             
-    return HttpResponse('<img src="/media/images/' + food_picturename + '.png"/>')
+    #return HttpResponse('<img src="/media/images/{{food.picture}}">')
+    return render(request, 'recipe/pic.html', {'FOOD': food})
 
 def food_list(request, rating):
     #allfood = Food.objects.all()
