@@ -65,11 +65,11 @@
                 </div>
                 <u>{{food.name}}</u>
                 <br>
-                <img src = "/media/images/{{food.picturename}}.png" alt = {{food.name}} width = "180" height = "180">
+                <img src = "/media/images/{{food.picture}}" alt = {{food.name}} width = "180" height = "180">
             </div>
         </a>
         {% endfor %}
     {% else %}
-        <p>No food are available.</p>
+        <p>Add an item! :)</p>
     {% endif %}
 {%endblock%}

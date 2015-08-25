@@ -19,7 +19,7 @@ class FoodForm(forms.ModelForm):
         
         restaurant = Div('restaurant',css_class = "col-xs-12", style="padding:0px;") 
         self.helper.layout.pop(5)
-        self.helper.layout.insert(5, Fieldset("Select Restaurant",restaurant, Button("createrestaurantmodal", value="Create New Restaurant", css_class="btn btn-primary btn-sm col-xs-12", data_toggle="modal", data_target="#myModal2")))
+        self.helper.layout.insert(5, Fieldset("Select Store",restaurant, Button("createrestaurantmodal", value="Create New Store", css_class="btn btn-primary btn-sm col-xs-12", data_toggle="modal", data_target="#myModal2")))
         
         self.helper.layout.append(Button('btn_createfood', 'Create Food', css_class='createfood', style="margin-top:15px;"))
         self.helper.layout.append(Hidden(name='btn_createfood', value="btn_createfood"))

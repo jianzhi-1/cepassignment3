@@ -106,15 +106,16 @@ class FoodList(ListView):
 
     def get_queryset(self):
         curruser = UserProfile.objects.get(user=self.request.user)
-        rating = self.kwargs['rating']
-        if rating == '':
+        if 'rating' in self.kwargs:
+            rating = self.kwargs['rating']
+            if rating == '':
 
-            self.queryset = Food.objects.filter(user=curruser)
-            return self.queryset
-        else:
-            #filter based on current logged in user
-            self.queryset = Food.objects.all().filter(user=curruser).filter(rating__num__iexact=rating)
-            return self.queryset
+                self.queryset = Food.objects.filter(user=curruser)
+                return self.queryset
+            else:
+                #filter based on current logged in user
+                self.queryset = Food.objects.all().filter(user=curruser).filter(rating__num__iexact=rating)
+                return self.queryset
             
     def get_context_data(self, **kwargs):
         context = super(FoodList, self).get_context_data(**kwargs)
@@ -145,7 +146,8 @@ class FoodCreate(CreateView):
 class FoodUpdate(UpdateView):
     model = Food
     form_class = FoodFormUpdate
-    success_url = reverse_lazy('listing')
+    #success_url = reverse_lazy('listing')
+    success_url = '/listall/'
     
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):

@@ -32,14 +32,16 @@
 
 <div id = "navigation">
     <a href = "{%url 'food_list' '' %}">
-        <img src="/media/images/mac.png" alt="McDonald Logo" width="60" height="60">
+        <img src="/media/images/random.png" alt="Dis[ITEM]play" width="60" height="60">
     </a>
     <h3>{{text}}</h3>
     {% if total != null %}
         <h3>Total number of delicious food: {{total}}</h3>
     {% else %}
-        <h3>Welcome to McDonald's</h3>
+        <h3>Welcome to <b>Dis[ITEM]play</b></h3>
     {% endif %}
+    <hr>
+    <h4>A place where you can <b>display</b>, <b>account</b> and <b>check your items</b>. Sign up for Free!</h4>
     <ul>
     {% if object_list %}
         {%for food in object_list%}
@@ -48,12 +50,12 @@
             </li>
         {%endfor%}
     {%else%}
-        <p>Welcome to McDonald's</p>
+        
     {% endif%}
     
     </ul>
 
-    <h3>Restaurants</h3>
+    <h3><b>Stores</b></h3>
     <ul>
     {% if resto %}
         {%for rest in resto%}
@@ -62,7 +64,7 @@
             </li>
         {%endfor%}
     {%else%}
-        <p>Welcome to McDonald's</p>
+        <p>Welcome to <b>Dis[ITEM]play</b></p>
     {% endif%}
     
     </ul>

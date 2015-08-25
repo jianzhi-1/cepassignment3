@@ -19,12 +19,13 @@ urlpatterns = patterns('',
     #assignment 1
     
     url(r'^food/(?P<food_id>\d+)$', views.food_detail, name="food_detail"),
-    url(r'^list/(?P<rating>.*)$', views.food_list, name = "food_list"),
+    #url(r'^list/(?P<rating>.*)$', views.food_list, name = "food_list"),
+    url(r'^list/(?P<rating>.*)$', views.FoodList.as_view(model=Food), name = "food_list"),
     url(r'^showImages/(?P<food_id>\d+)$', views.showImages, name = "show_image"),
     url(r'^restaurant/(?P<restaurants>.*)$', views.food_restaurants, name='restaurant_list'),
     
     #assignment 2
-    url(r'^listall/$', ListView.as_view(model=Food), name = "listing"),
+    url(r'^listall/(?P<rating>.*)$', views.FoodList.as_view(model=Food), name = "listing"),
     url(r'^lists/(?P<rating>.*)$', views.FoodList.as_view(), name='recipe_list'),
     #url(r'^detail/(?P<pk>\d+)S', DetailView.as_view(model=Food)),
     #url(r'^add/$', views.FoodCreate.as_view(), name = 'food_add'),

@@ -11,7 +11,7 @@
 <body>
 <div id = "navigation">
     <a href="{%url 'food_list' '' %}">
-    <img src="/media/images/mac.png" alt="McDonald Logo" width="60" height="60">
+    <img src="/media/images/{{food.picture}}" alt="Dis[ITEM]play" width="60" height="60">
     </a>
 </div>
 
@@ -23,9 +23,9 @@
     <br/>
     <br>
     Rating: <a href={%url 'food_list' food.rating%}>{{food.rating}}</a>
-    <p>Click on the rating to view more food with the same rating.</p>
+    <p>Click on the rating to view more items with the same rating.</p>
     <br>
-    All restaurant(s) which serve it:
+    All stores which sell it:
     <ul>
         {% for resto in food.restaurant.all%}
             <a href="{%url 'restaurant_list' resto.name%}">
@@ -35,7 +35,7 @@
     </ul>
     <p>Click on the restaurants to view more food sold there.</p>
     <a href={%url 'show_image' food.id %}>
-    <img src = "/media/images/{{food.picturename}}.png" alt = {{food.name}} width = "180" height = "180">
+    <img src = "/media/images/{{food.picture}}" alt = {{food.name}} width = "180" height = "180">
     </a>
     <p>Click on the image to view it in larger proportion.</p>
 </div>

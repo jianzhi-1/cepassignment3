@@ -35,6 +35,9 @@ def registration(request):
             # If so, we need to get it from the input form and put it in the UserProfile model.
             if 'picture' in request.FILES:
                 profile.picture = request.FILES['picture']
+                
+            if 'companypicture' in request.FILES:
+                profile.companypicture = request.FILES['companypicture']
 
             # Now we save the UserProfile model instance.
             profile.save()

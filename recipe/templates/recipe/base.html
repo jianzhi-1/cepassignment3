@@ -4,7 +4,7 @@
 <head>
   <title>
     {%block title%}
-	      McDonald Food List
+	      {{curruser.companyname}} - Dis[ITEM]play
     {%endblock%}
   </title>
 </head>
@@ -14,6 +14,7 @@
 {% bootstrap_css %}
 {% bootstrap_javascript jquery=1%}
 
+<link rel="icon" href="/media/images/{{curruser.companypicture}}">
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js"></script>
@@ -196,13 +197,14 @@
 
 <div id = "navigation">
     <a href = "{%url 'food_list' '' %}">
-        <img src="/media/images/mac.png" alt="McDonald Logo" width="60" height="60">
+        <img src="/media/images/{{curruser.companypicture}}" alt="McDonald Logo" width="60" height="60">
     </a>
+    <h3><b><u>{{curruser.companyname}}</u></b></h3>
     <h3>{{text}}</h3>
     {% if total != null %}
-        <h3><b>Total number of delicious food: {{total}}</b></h3>
+        <h3><b>Total number of items: {{total}}</b></h3>
     {% else %}
-        <h3><b>Welcome to McDonald's</b></h3>
+        <h3><b>Welcome to Dis[ITEM]play</b></h3>
     {% endif %}
     <ul>
     {% if object_list %}
@@ -212,12 +214,12 @@
             </li>
         {%endfor%}
     {%else%}
-        <p>Welcome to McDonald's</p>
+        <p>Add an item!</p>
     {% endif%}
     
     </ul>
 
-    <h3><b>Restaurants</b></h3>
+    <h3><b>Stores</b></h3>
     <ul>
     {% if resto %}
         {%for rest in resto%}
@@ -226,7 +228,7 @@
             </li>
         {%endfor%}
     {%else%}
-        <p><b>Welcome to McDonald's</b></p>
+        <p><b>Add a store in the 'Create Item' button. :)</b></p>
     {% endif%}
     
     </ul>
@@ -248,7 +250,7 @@
               <li role="presentation" class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
                   {%if user.is_authenticated%}
-                      <img src="/media/images/random.png" height="30px" %} />
+                      <img src="/media/images/{{curruser.picture}}" height="30px" %} />
                       Hi {{user.username}}!
                   {%else%}
                       Login here!
@@ -259,8 +261,8 @@
                 <ul class="dropdown-menu">
                   {%if user.is_authenticated%}
                       <li><a href="/accounts/logout">Logout</a></li>
-                      <li><a href="/add">Add a new food</a></li>
-                      <li><a href="/listall">View all food</a></li>
+                      <li><a href="/add">Add a new item</a></li>
+                      <li><a href="/listall">View all items</a></li>
                   {%else%}
                       <li><a href="/accounts/login">Login</a></li>
                   {%endif%}
