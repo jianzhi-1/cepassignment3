@@ -8,10 +8,11 @@ body {
 #navigation {
     line-height:30px;
     background-color:#eeeeee;
-    height:2000px;
+    height:4000px;
     width:100px;
     float:left;
     padding:20px;	
+    font-weight:bold;
 }
 
 #content {

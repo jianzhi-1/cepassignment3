@@ -63,8 +63,9 @@ textbox:focus { box-shadow:0 5px 12px rgba(0,0,0,0.2); outline:none; }
 #navigation {
     line-height:30px;
     background-color:#eeeeee;
-    height:2000px;
+    height:4000px;
     width:400px;
     float:left;
     padding:20px;	
+    font-weight:bold;
 }

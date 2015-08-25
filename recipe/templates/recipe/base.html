@@ -27,6 +27,8 @@
     margin:0px;
     padding:0px;
     height:50px;
+    font-family:times;
+    font-weight: bold;
 }
 </script>
 
@@ -198,15 +200,15 @@
     </a>
     <h3>{{text}}</h3>
     {% if total != null %}
-        <h3>Total number of delicious food: {{total}}</h3>
+        <h3><b>Total number of delicious food: {{total}}</b></h3>
     {% else %}
-        <h3>Welcome to McDonald's</h3>
+        <h3><b>Welcome to McDonald's</b></h3>
     {% endif %}
     <ul>
     {% if object_list %}
         {%for food in object_list%}
             <li>
-                <a href="{%url 'food_detail' food.id%}">{{food.name}}</a>
+                <a href="{%url 'food_detail' food.id%}"><b>{{food.name}}</b></a>
             </li>
         {%endfor%}
     {%else%}
@@ -215,21 +217,30 @@
     
     </ul>
 
-    <h3>Restaurants</h3>
+    <h3><b>Restaurants</b></h3>
     <ul>
     {% if resto %}
         {%for rest in resto%}
             <li>
-                <a href="{%url 'restaurant_list' rest.name%}">{{rest.content}}</a>
+                <a href="{%url 'restaurant_list' rest.name%}"><b>{{rest.content}}</b></a>
             </li>
         {%endfor%}
     {%else%}
-        <p>Welcome to McDonald's</p>
+        <p><b>Welcome to McDonald's</b></p>
     {% endif%}
     
     </ul>
 </div>
 
+<style>
+.mynavbar {
+    position: absolute;
+    left: 1750px;
+    top: 4px;
+    z-index: 1;
+    
+}
+</style>
 
 <body>
     <div class="mynavbar">
@@ -237,7 +248,7 @@
               <li role="presentation" class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">
                   {%if user.is_authenticated%}
-                      <img src="/media/{{curruser.picture}}" height="30px" %} />
+                      <img src="/media/images/random.png" height="30px" %} />
                       Hi {{user.username}}!
                   {%else%}
                       Login here!
@@ -258,8 +269,8 @@
                 </ul>
               </li>
             </ul>
-</div>
-
+    </div>
+<div>
 {%block content%}
 	To be replaced by actual content
 {%endblock%}

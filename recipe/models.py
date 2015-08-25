@@ -7,8 +7,8 @@ class Food(models.Model):
     user = models.ForeignKey(UserProfile, blank=True, null=True)
     name = models.CharField(max_length = 255)
     information = models.TextField()
-    picturename = models.CharField(max_length = 255, default = "1")
-    picture = models.ImageField(upload_to='', default = "1.png")
+    picturename = models.CharField(max_length = 255, default = "mc")
+    picture = models.ImageField(upload_to='', default = "mc.png")
     
     color = models.CharField(max_length=50, default = "yellow")
     fontcolor = models.CharField(max_length=50, default = "black")

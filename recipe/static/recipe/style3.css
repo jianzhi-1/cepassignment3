@@ -67,9 +67,9 @@ textbox:focus { box-shadow:0 5px 12px rgba(0,0,0,0.2); outline:none; }
     width:300px;
     float:left;
     padding:20px;	
+    font-weight:bold;
 }
 
 .container {
     padding-left:275px;
-}
 }
