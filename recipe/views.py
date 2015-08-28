@@ -74,7 +74,7 @@ def food_detail(request, food_id):
     '''
     
 def food_restaurants(request, restaurants):
-    text = "Food at "
+    text = ""
     allrestaurant = Restaurant.objects.all()
     for restaurant in allrestaurant:
         if restaurant.name == restaurants:
@@ -158,6 +158,13 @@ class FoodUpdate(UpdateView):
         context = super(FoodUpdate, self).get_context_data(**kwargs)
         context['curruser'] = UserProfile.objects.get(user=self.request.user)
         return context
+        
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(FoodUpdate, self).get_object()
+        if not UserProfile.objects.get(user=self.request.user) == obj.user:
+            raise Http404
+        return obj
     
 class FoodByRestaurant(ListView):
     model = Food
@@ -267,6 +274,13 @@ class FoodDelete(DeleteView):
         context = super(FoodDelete, self).get_context_data(**kwargs)
         context['curruser'] = UserProfile.objects.get(user=self.request.user)
         return context
+        
+    def get_object(self, queryset=None):
+        """ Hook to ensure object is owned by request.user. """
+        obj = super(FoodDelete, self).get_object()
+        if not UserProfile.objects.get(user=self.request.user) == obj.user:
+            raise Http404
+        return obj
         
 class Landing(TemplateView):
     template_name = "recipe/landing.html"

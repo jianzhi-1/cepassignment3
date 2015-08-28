@@ -20,7 +20,7 @@
 
 <p>Are you sure you want to delete the food "{{ object }}" ?</p>
 <a href={%url 'show_image' object.id %}>
-<img src = "/media/images/{{object.picturename}}.png" alt = {{object.name}} width = "180" height = "180">
+<img src = "/media/images/{{object.picture}}" alt = {{object.name}} width = "180" height = "180">
 </a>
 
 <form method="POST">{% csrf_token %}

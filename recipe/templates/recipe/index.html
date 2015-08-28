@@ -1,13 +1,19 @@
+{# Load the tag library #}
+{% load bootstrap3 %}
+{%load staticfiles%}
+
 <head>
-    <title>McDonald's Food Category</title>
+  <title>
+	  Dis[ITEM]play
+  </title>
 </head>
 
 <div id = "navigation">
     <a href="{%url 'food_list' '' %}">
-    <img src="/media/images/mac.png" alt="McDonald Logo" width="60" height="60">
+    <img src="/media/images/random.png" alt="Dis[ITEM]play" width="60" height="60">
     </a>
-    <h3>{{text}}</h3>
-    <h2>Total number of delicious food: {{total}}</h2>
+    <h3>Items in store at {{text}}</h3>
+    <h2>Total number of items: {{total}}</h2>
     <ul>
     {% if recipe %}
         {%for food in recipe%}
@@ -16,12 +22,13 @@
             </li>
         {%endfor%}
     {%else%}
-        <p>No food is available, please try again tomorrow :P</p>
+        <p>No item are available, please try again tomorrow :P</p>
     {% endif%}
     
     </ul>
 
-    <h2>Restaurants</h2>
+    <h2>{{text}}</h2>
+    <h3>Welcome!</h3>
     <ul>
     {% if resto %}
         {%for rest in resto%}
@@ -30,7 +37,6 @@
             </li>
         {%endfor%}
     {%else%}
-        <p>Welcome to McDonald's</p>
     {% endif%}
     
     </ul>
@@ -59,7 +65,7 @@
                 </div>
                 <u>{{food.name}}</u>
                 <br>
-                <img src = "/media/images/{{food.picturename}}.png" alt = {{food.name}} width = "180" height = "180">
+                <img src = "/media/images/{{food.picture}}" alt = {{food.name}} width = "180" height = "180">
             </div>
             
             <!--
@@ -80,5 +86,5 @@
         </a>
     {% endfor %}
 {% else %}
-    <p>No food is available.</p>
+    <p>No items are available.</p>
 {% endif %}

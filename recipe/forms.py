@@ -21,7 +21,7 @@ class FoodForm(forms.ModelForm):
         self.helper.layout.pop(5)
         self.helper.layout.insert(5, Fieldset("Select Store",restaurant, Button("createrestaurantmodal", value="Create New Store", css_class="btn btn-primary btn-sm col-xs-12", data_toggle="modal", data_target="#myModal2")))
         
-        self.helper.layout.append(Button('btn_createfood', 'Create Food', css_class='createfood', style="margin-top:15px;"))
+        self.helper.layout.append(Button('btn_createfood', 'Create Item', css_class='createfood', style="margin-top:15px;"))
         self.helper.layout.append(Hidden(name='btn_createfood', value="btn_createfood"))
         
     def full_clean(self):
@@ -40,7 +40,7 @@ class FoodForm(forms.ModelForm):
 class RatingForm(forms.ModelForm):
     class Meta:
         model = Rating
-        fields = '__all__'
+        exclude = ('user',)
         
     def __init__(self, *args, **kwargs):
         super(RatingForm, self).__init__(*args, **kwargs)
@@ -53,14 +53,14 @@ class RatingForm(forms.ModelForm):
 class RestaurantForm(forms.ModelForm):
     class Meta:
         model = Restaurant
-        fields = '__all__'
+        exclude = ('user',)
         
     def __init__(self, *args, **kwargs):
         super(RestaurantForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_id = "restaurantform"
         self.helper.layout.append(Hidden(name='btn_createrestaurant', value="btn_createrestaurant"))
-        self.helper.layout.append(Button('btn_createrestaurant', 'Create Restaurant', css_class='createrestaurant', data_dismiss="modal"))
+        self.helper.layout.append(Button('btn_createrestaurant', 'Create Store', css_class='createrestaurant', data_dismiss="modal"))
 
 
 class FoodFormUpdate(forms.ModelForm):

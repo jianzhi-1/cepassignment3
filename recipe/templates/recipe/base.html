@@ -220,12 +220,16 @@
     </ul>
 
     <h3><b>Stores</b></h3>
+    
+    
     <ul>
-    {% if resto %}
-        {%for rest in resto%}
-            <li>
-                <a href="{%url 'restaurant_list' rest.name%}"><b>{{rest.content}}</b></a>
-            </li>
+    {% if object_list %}
+        {%for food in object_list%}
+            {%for rest in food.restaurant.all%}
+                <li>
+                    <a href="{%url 'restaurant_list' rest.name%}"><b>{{rest.content}}</b></a>
+                </li>
+            {%endfor%}
         {%endfor%}
     {%else%}
         <p><b>Add a store in the 'Create Item' button. :)</b></p>
@@ -237,7 +241,7 @@
 <style>
 .mynavbar {
     position: absolute;
-    left: 1750px;
+    right: 10px;
     top: 4px;
     z-index: 1;
     
